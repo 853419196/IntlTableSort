@@ -1,5 +1,6 @@
 # IntlTableSort
 International Table Sorter
+
 Compatible list:
 Chrome 24+
 Edge 12+
