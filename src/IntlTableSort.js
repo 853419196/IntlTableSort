@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 /**
  * @param {HTMLTableCellElement} theadCell - <table> -> <thead> -> <td> or <th>
  * @returns {HTMLTableElement} <td> or <th> -> <thead> -> <table>
@@ -207,7 +207,7 @@ function tableSort(theadCell,locales,options)
                 }
                 if(tbodyLangString)tbodyComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order,tbodyLangString,options);
                 else if(tableLangString)tbodyComparatorFunction=tableComparatorFunction||(tableComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order,tableLangString,options,true));
-                else tbodyComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order);
+                else tbodyComparatorFunction=tableComparatorFunction||(tableComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order));
             }
             for(let rowIndexNumber=0;rowIndexNumber<tableHTMLElement.tBodies[tbodyIndexNumber].rows.length;rowIndexNumber++)
             {
