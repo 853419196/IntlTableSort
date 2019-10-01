@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 /**
  * @param {String} [toCase=""] - "Lower" or "Upper"
  * @param {String|String[]} [language=""] - IETF BCP 47 Language Tag
@@ -54,7 +54,7 @@ function getStringToCaseFunction(toCase,language)
  */
 function stringTableSort(theadCell,toCase,locales,options)
 {
-    var tableComparatorFunction,tableHTMLElement=initTable(theadCell),tableLangString;
+    var tableComparatorFunction,tableHTMLElement=initTable(theadCell),tableLangString,tableStringToCaseFunction;
     if(!locales)
     {
         for(let node=tableHTMLElement;!tableLangString&&node.parentNode;node=node.parentNode)
@@ -66,10 +66,10 @@ function stringTableSort(theadCell,toCase,locales,options)
     {
         if(tableHTMLElement.tBodies[tbodyIndexNumber].dataset.sortable)
         {
-            let rowInfoArray=[],tbodyComparatorFunction,stringToCaseFunction;
+            let rowInfoArray=[],tbodyComparatorFunction,tbodyStringToCaseFunction;
             if(locales)
             {
-                stringToCaseFunction=getStringToCaseFunction(toCase,locales);
+                tbodyStringToCaseFunction=tableStringToCaseFunction||(tableStringToCaseFunction=getStringToCaseFunction(toCase,locales));
                 tbodyComparatorFunction=tableComparatorFunction||(tableComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order,locales,options,true));
             }
             else
@@ -79,10 +79,21 @@ function stringTableSort(theadCell,toCase,locales,options)
                 {
                     tbodyLangString=node.getAttribute("lang");
                 }
-                stringToCaseFunction=getStringToCaseFunction(toCase,tbodyLangString||tableLangString);
-                if(tbodyLangString)tbodyComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order,tbodyLangString,options);
-                else if(tableLangString)tbodyComparatorFunction=tableComparatorFunction||(tableComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order,tableLangString,options,true));
-                else tbodyComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order);
+                if(tbodyLangString)
+                {
+                    tbodyStringToCaseFunction=getStringToCaseFunction(toCase,tbodyLangString);
+                    tbodyComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order,tbodyLangString,options);
+                }
+                else if(tableLangString)
+                {
+                    tbodyStringToCaseFunction=tableStringToCaseFunction||(tableStringToCaseFunction=getStringToCaseFunction(toCase,tableLangString));
+                    tbodyComparatorFunction=tableComparatorFunction||(tableComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order,tableLangString,options,true))
+                };
+                else
+                {
+                    tbodyStringToCaseFunction=tableStringToCaseFunction||(tableStringToCaseFunction=getStringToCaseFunction(toCase));
+                    tbodyComparatorFunction=tableComparatorFunction||(tableComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order));
+                }
             }
             for(let rowIndexNumber=0;rowIndexNumber<tableHTMLElement.tBodies[tbodyIndexNumber].rows.length;rowIndexNumber++)
             {
@@ -99,7 +110,7 @@ function stringTableSort(theadCell,toCase,locales,options)
                 let downRowCellIndexNumber=downRowInfo[1],downRowLocalNumber=downRowInfo[2],upRowCellIndexNumber=upRowInfo[1],upRowLocalNumber=upRowInfo[2];
                 while(downRowCellIndexNumber<downRowInfo[0].cells.length&&upRowCellIndexNumber<upRowInfo[0].cells.length)
                 {
-                    const resultNumber=tbodyComparatorFunction(stringToCaseFunction(upRowInfo[0].cells[upRowCellIndexNumber].innerText),stringToCaseFunction(downRowInfo[0].cells[downRowCellIndexNumber].innerText));
+                    const resultNumber=tbodyComparatorFunction(tbodyStringToCaseFunction(upRowInfo[0].cells[upRowCellIndexNumber].innerText),tbodyStringToCaseFunction(downRowInfo[0].cells[downRowCellIndexNumber].innerText));
                     if(!resultNumber)
                     {
                         const downRowNextLocalNumber=downRowLocalNumber+downRowInfo[0].cells[downRowCellIndexNumber].colSpan,upRowNextLocalNumber=upRowLocalNumber+upRowInfo[0].cells[upRowCellIndexNumber].colSpan;
