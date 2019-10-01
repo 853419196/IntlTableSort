@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 /**
  * @param {String} [toString=""] - "Date" or "Time" or "DateTime" or "Custom"
  * @param {String|String[]} [language=""] - IETF BCP 47 Language Tag
@@ -83,9 +83,10 @@ function dateTimeTableSort(theadCell,setToTitleString,locales,options)
     }
     for(let tbodyIndexNumber=0;tbodyIndexNumber<tableHTMLElement.tBodies.length;tbodyIndexNumber++)
     {
+        let tbodyFormatFunction,tbodyLangString;
         if(tableHTMLElement.tBodies[tbodyIndexNumber].dataset.sortable)
         {
-            let rowInfoArray=[],tbodyComparatorFunction,tbodyLangString;
+            let rowInfoArray=[],tbodyComparatorFunction;
             if(locales)tbodyComparatorFunction=tableStringComparatorFunction||(tableStringComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order,locales,options,true));
             else
             {
@@ -95,7 +96,7 @@ function dateTimeTableSort(theadCell,setToTitleString,locales,options)
                 }
                 if(tbodyLangString)tbodyComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order,tbodyLangString,options);
                 else if(tableLangString)tbodyComparatorFunction=tableStringComparatorFunction||(tableStringComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order,tableLangString,options,true));
-                else tbodyComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order);
+                else tbodyComparatorFunction=tableStringComparatorFunction||(tableStringComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order));
             }
             for(let rowIndexNumber=0;rowIndexNumber<tableHTMLElement.tBodies[tbodyIndexNumber].rows.length;rowIndexNumber++)
             {
@@ -109,12 +110,10 @@ function dateTimeTableSort(theadCell,setToTitleString,locales,options)
             }
             if(setToTitleString)
             {
-                let tbodyFormatFunction;
-                if(setToTitleString.toLowerCase()!="custom")tbodyFormatFunction=tableFormatFunction=getDateTimeFormatFunction(setToTitleString,locales||tbodyLangString||tableLangString,options);
-                else if(locales)tbodyFormatFunction=tableFormatFunction||(tableFormatFunction=getDateTimeFormatFunction(setToTitleString,locales,options));
+                if(locales)tbodyFormatFunction=tableFormatFunction||(tableFormatFunction=getDateTimeFormatFunction(setToTitleString,locales,options));
                 else if(tbodyLangString)tbodyFormatFunction=getDateTimeFormatFunction(setToTitleString,tbodyLangString,options);
                 else if(tableLangString)tbodyFormatFunction=tableFormatFunction||(tableFormatFunction=getDateTimeFormatFunction(setToTitleString,tableLangString,options));
-                else tbodyFormatFunction=getDateTimeFormatFunction(setToTitleString);
+                else tbodyFormatFunction=tableFormatFunction||(tableFormatFunction=getDateTimeFormatFunction(setToTitleString));
                 rowInfoArray.forEach(function(rowInfo)
                 {
                     for(let cellIndexNumber=rowInfo[1],localNumber=rowInfo[2];cellIndexNumber<rowInfo[0].cells.length&&localNumber<+theadCell.dataset.local+theadCell.colSpan;localNumber+=rowInfo[0].cells[cellIndexNumber].colSpan,cellIndexNumber++)
@@ -162,6 +161,45 @@ function dateTimeTableSort(theadCell,setToTitleString,locales,options)
             {
                 tableHTMLElement.tBodies[tbodyIndexNumber].appendChild(rowInfo[0]);
             });
+        }
+        else if(setToTitleString)
+        {
+            if(locales)tbodyFormatFunction=tableFormatFunction||(tableFormatFunction=getDateTimeFormatFunction(setToTitleString,locales,options));
+            else
+            {
+                for(let node=tableHTMLElement.tBodies[tbodyIndexNumber];!tbodyLangString&&node.nodeName!="TABLE";node=node.parentNode)
+                {
+                    tbodyLangString=node.getAttribute("lang");
+                }
+                if(tbodyLangString)tbodyFormatFunction=getDateTimeFormatFunction(setToTitleString,tbodyLangString,options);
+                else if(tableLangString)tbodyFormatFunction=tableFormatFunction||(tableFormatFunction=getDateTimeFormatFunction(setToTitleString,tableLangString,options));
+                else tbodyFormatFunction=tableFormatFunction||(tableFormatFunction=getDateTimeFormatFunction(setToTitleString));
+            }
+            for(let localArray=[],rowIndexNumber=0;rowIndexNumber<tableHTMLElement.tBodies[tbodyIndexNumber].rows.length;rowIndexNumber++)
+            {
+                let cellIndexNumber=0,localNumber=0;
+                if(!localArray[rowIndexNumber])localArray[rowIndexNumber]=[];
+                while(localArray[rowIndexNumber][localNumber])localNumber++;
+                while(cellIndexNumber<tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells.length&&localNumber<+theadCell.dataset.local+theadCell.colSpan)
+                {
+                    if(localNumber+tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells[cellIndexNumber].colSpan>theadCell.dataset.local)
+                    {
+                        const datetime=new Date(tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells[cellIndexNumber].innerText);
+                        if(!isNaN(+datetime))tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells[cellIndexNumber].setAttribute("title",tbodyFormatFunction(datetime));
+                    }
+                    for(let scanRowNumber=0;scanRowNumber<tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells[cellIndexNumber].rowSpan;scanRowNumber++)
+                    {
+                        if(!localArray[rowIndexNumber+scanRowNumber])localArray[rowIndexNumber+scanRowNumber]=[];
+                        for(let scanColumnNumber=0;scanColumnNumber<tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells[cellIndexNumber].colSpan;scanColumnNumber++)
+                        {
+                            localArray[rowIndexNumber+scanRowNumber][localNumber+scanColumnNumber]=true;
+                        }
+                    }
+                    localNumber+=tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells[cellIndexNumber].colSpan;
+                    while(localArray[rowIndexNumber][localNumber])localNumber++;
+                    cellIndexNumber++;
+                }
+            }
         }
     }
 }
