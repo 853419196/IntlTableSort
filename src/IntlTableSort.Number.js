@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 /**
  * @param {String|String[]} [language=""] - IETF BCP 47 Language Tag
  * @param {Object} [options=null]
@@ -45,9 +45,10 @@ function numberTableSort(theadCell,setTitle,locales,options)
     }
     for(let tbodyIndexNumber=0;tbodyIndexNumber<tableHTMLElement.tBodies.length;tbodyIndexNumber++)
     {
+        let tbodyFormatFunction,tbodyLangString;
         if(tableHTMLElement.tBodies[tbodyIndexNumber].dataset.sortable)
         {
-            let rowInfoArray=[],tbodyComparatorFunction,tbodyLangString;
+            let rowInfoArray=[],tbodyComparatorFunction;
             if(locales)tbodyComparatorFunction=tableStringComparatorFunction||(tableStringComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order,locales,options,true));
             else
             {
@@ -57,7 +58,7 @@ function numberTableSort(theadCell,setTitle,locales,options)
                 }
                 if(tbodyLangString)tbodyComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order,tbodyLangString,options);
                 else if(tableLangString)tbodyComparatorFunction=tableStringComparatorFunction||(tableStringComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order,tableLangString,options,true));
-                else tbodyComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order);
+                else tbodyComparatorFunction=tableStringComparatorFunction||(tableStringComparatorFunction=getStringComparatorFunction(+theadCell.dataset.order));
             }
             for(let rowIndexNumber=0;rowIndexNumber<tableHTMLElement.tBodies[tbodyIndexNumber].rows.length;rowIndexNumber++)
             {
@@ -71,11 +72,10 @@ function numberTableSort(theadCell,setTitle,locales,options)
             }
             if(setTitle)
             {
-                let tbodyFormatFunction;
                 if(locales)tbodyFormatFunction=tableFormatFunction||(tableFormatFunction=getNumberFormatFunction(locales,options,true));
                 else if(tbodyLangString)tbodyFormatFunction=getNumberFormatFunction(tbodyLangString,options);
                 else if(tableLangString)tbodyFormatFunction=tableFormatFunction||(tableFormatFunction=getNumberFormatFunction(tableLangString,options,true));
-                else tbodyFormatFunction=getNumberFormatFunction();
+                else tbodyFormatFunction=tableFormatFunction||(tableFormatFunction=getNumberFormatFunction());
                 rowInfoArray.forEach(function(rowInfo)
                 {
                     for(let cellIndexNumber=rowInfo[1],localNumber=rowInfo[2];cellIndexNumber<rowInfo[0].cells.length&&localNumber<+theadCell.dataset.local+theadCell.colSpan;localNumber+=rowInfo[0].cells[cellIndexNumber].colSpan,cellIndexNumber++)
@@ -122,6 +122,44 @@ function numberTableSort(theadCell,setTitle,locales,options)
             {
                 tableHTMLElement.tBodies[tbodyIndexNumber].appendChild(rowInfo[0]);
             });
+        }
+        else if(setTitle)
+        {
+            if(locales)tbodyFormatFunction=tableFormatFunction||(tableFormatFunction=getNumberFormatFunction(locales,options,true));
+            else
+            {
+                for(let node=tableHTMLElement.tBodies[tbodyIndexNumber];!tbodyLangString&&node.nodeName!="TABLE";node=node.parentNode)
+                {
+                    tbodyLangString=node.getAttribute("lang");
+                }
+                if(tbodyLangString)tbodyFormatFunction=getNumberFormatFunction(tbodyLangString,options);
+                else if(tableLangString)tbodyFormatFunction=tableFormatFunction||(tableFormatFunction=getNumberFormatFunction(tableLangString,options,true));
+                else tbodyFormatFunction=tableFormatFunction||(tableFormatFunction=getNumberFormatFunction());
+            }
+            for(let localArray=[],rowIndexNumber=0;rowIndexNumber<tableHTMLElement.tBodies[tbodyIndexNumber].rows.length;rowIndexNumber++)
+            {
+                let cellIndexNumber=0,localNumber=0;
+                if(!localArray[rowIndexNumber])localArray[rowIndexNumber]=[];
+                while(localArray[rowIndexNumber][localNumber])localNumber++;
+                while(cellIndexNumber<tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells.length&&localNumber<+theadCell.dataset.local+theadCell.colSpan)
+                {
+                    if(localNumber+tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells[cellIndexNumber].colSpan>theadCell.dataset.local)
+                    {
+                        if(!isNaN(tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells[cellIndexNumber].innerText))tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells[cellIndexNumber].setAttribute("title",tbodyFormatFunction(+tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells[cellIndexNumber].innerText));
+                    }
+                    for(let scanRowNumber=0;scanRowNumber<tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells[cellIndexNumber].rowSpan;scanRowNumber++)
+                    {
+                        if(!localArray[rowIndexNumber+scanRowNumber])localArray[rowIndexNumber+scanRowNumber]=[];
+                        for(let scanColumnNumber=0;scanColumnNumber<tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells[cellIndexNumber].colSpan;scanColumnNumber++)
+                        {
+                            localArray[rowIndexNumber+scanRowNumber][localNumber+scanColumnNumber]=true;
+                        }
+                    }
+                    localNumber+=tableHTMLElement.tBodies[tbodyIndexNumber].rows[rowIndexNumber].cells[cellIndexNumber].colSpan;
+                    while(localArray[rowIndexNumber][localNumber])localNumber++;
+                    cellIndexNumber++;
+                }
+            }
         }
     }
 }
