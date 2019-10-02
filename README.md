@@ -3,14 +3,14 @@ International Table Sorter
 
 Compatible list:
 
-Chrome 24+
+Chrome 49+
 
-Edge 12+
+Edge 14+
 
-Firefox 29+
+Firefox 44+
 
 Internet Explorer 11+
 
-Opera 15+
+Opera 25+
 
 Safari 10+
