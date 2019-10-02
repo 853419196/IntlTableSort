@@ -1,4 +1,7 @@
 # IntlTableSort
+
+HTML 5.3: https://www.w3.org/TR/html53/
+
 International Table Sorter
 
 Compatible list:
