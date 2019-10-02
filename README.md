@@ -1,8 +1,8 @@
 # IntlTableSort
 
-HTML 5.3: https://www.w3.org/TR/html53/
+HTML 5.3 International Table Sorter
 
-International Table Sorter
+HTML 5.3: https://www.w3.org/TR/html53/
 
 Compatible list:
 
