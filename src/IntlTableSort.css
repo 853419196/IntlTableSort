@@ -1,0 +1,4 @@
+thead th[onclick],thead td[onclick]
+{
+    cursor:pointer;
+}
