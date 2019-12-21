@@ -8,7 +8,7 @@ Compatible list:
 
 Chrome 49+
 
-Edge 14+
+Edge 12+
 
 Firefox 44+
 
