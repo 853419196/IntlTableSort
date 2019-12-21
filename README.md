@@ -6,7 +6,7 @@ HTML 5.3: https://www.w3.org/TR/html53/
 
 Compatible list:
 
-Chrome 49+
+Chrome 41+
 
 Edge 12+
 
