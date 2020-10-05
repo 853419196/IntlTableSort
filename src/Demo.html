@@ -1,0 +1,97 @@
+﻿<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>🎌 List of Flag Emoji</title>
+        <script src="IntlTableSort.js"></script>
+        <script src="IntlTableSort.Number.js"></script>
+        <script src="IntlTableSort.String.js"></script>
+        <script src="IntlTableSort.DateTime.js"></script>
+        <link href="IntlTableSort.css" rel="stylesheet"/>
+        <meta name="viewport" content="width=device-width"/>
+    </head>
+    <body>
+        <table border="1">
+            <caption>🎌 List of Flag Emoji</caption>
+            <thead>
+                <tr>
+                    <th tabindex="0" onclick="tableSort(this,'en')" onkeydown="return keydownToClick(this,event)">Code</th>
+                    <th>Flag</th>
+                    <th tabindex="0" onclick="stringTableSort(this,'Lower','en')" onkeydown="return keydownToClick(this,event)">Name</th>
+                    <th tabindex="0" onclick="dateTimeTableSort(this,'DateTime','en')" onkeydown="return keydownToClick(this,event)">Birthday</th>
+                    <th tabindex="0" onclick="numberTableSort(this,true,'en')" onkeydown="return keydownToClick(this,event)">GDP per capita (2011)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true" align="center">US</td>
+                    <td><font size="7">🇺🇸</font></td>
+                    <td contenteditable="true">United States of America</td>
+                    <td contenteditable="true">Thu, 04 Jul 1776</td>
+                    <td contenteditable="true">48862.4</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true" align="center">CN</td>
+                    <td><font size="7">🇨🇳</font></td>
+                    <td contenteditable="true">People's Republic of China</td>
+                    <td contenteditable="true">Sat, 01 Oct 1949</td>
+                    <td contenteditable="true">4961.2</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true" align="center">TW</td>
+                    <td><font size="7">🇹🇼</font></td>
+                    <td contenteditable="true">the Taiwan</td>
+                    <td contenteditable="true">Tue, 10 Oct 1911</td>
+                    <td contenteditable="true">null</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true" align="center">HK</td>
+                    <td><font size="7">🇭🇰</font></td>
+                    <td contenteditable="true">the Hong Kong</td>
+                    <td contenteditable="true">Tue, 01 Jul 1997</td>
+                    <td contenteditable="true">33888.5</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true" align="center">JP</td>
+                    <td><font size="7">🇯🇵</font></td>
+                    <td contenteditable="true">Japan</td>
+                    <td contenteditable="true">null</td>
+                    <td contenteditable="true">44538.7</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true" align="center">KR</td>
+                    <td><font size="7">🇰🇷</font></td>
+                    <td contenteditable="true">Republic of Korea</td>
+                    <td contenteditable="true">Sun, 15 Aug 1948</td>
+                    <td contenteditable="true">22724.7</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr></tr>
+                <tr>
+                    <td align="center">EU</td>
+                    <td><font size="7">🇪🇺</font></td>
+                    <td>European Union</td>
+                    <td>Mon, 01 Nov 1993</td>
+                    <td>34326.4</td>
+                </tr>
+                <tr>
+                    <td align="center">UN</td>
+                    <td><font size="7">🇺🇳</font></td>
+                    <td>United Nations</td>
+                    <td>Wed, 24 Oct 1945</td>
+                    <td>9722.0</td>
+                </tr>
+            </tfoot>
+        </table>
+        <script>
+            function keydownToClick(htmlElement,keyboardEvent)
+            {
+                if(keyboardEvent.keyCode==13||keyboardEvent.keyCode==32)
+                {
+                    htmlElement.onclick();
+                    return false;
+                }
+            }
+        </script>
+    </body>
+</html>
