@@ -19,29 +19,29 @@ function getStringToCaseFunction(toCase,language)
             if(language)return function(string)
             {
                 return string.toLocaleLowerCase(language);
-            }
+            };
             else return function(string)
             {
                 return string.toLowerCase();
-            }
+            };
         }
         case "upper":
         {
             if(language)return function(string)
             {
                 return string.toLocaleUpperCase(language);
-            }
+            };
             else return function(string)
             {
                 return string.toUpperCase();
-            }
+            };
         }
         default:
         {
             return function(string)
             {
                 return string.toString();
-            }
+            };
         }
     }
 }

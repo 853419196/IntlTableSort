@@ -111,7 +111,7 @@ function getNumberComparatorFunction(order)
                     return 0;
                 }
                 else return left-right;
-            }
+            };
         }
         case -1:
         {
@@ -124,7 +124,7 @@ function getNumberComparatorFunction(order)
                     return 0;
                 }
                 else return right-left;
-            }
+            };
         }
     }
 }
@@ -148,18 +148,18 @@ function getStringComparatorFunction(order,language,options,useIntlCollator)
             if(!language)return function(left,right)
             {
                 return left==right?0:left>right?1:-1;
-            }
+            };
             else if(!useIntlCollator)return function(left,right)
             {
                 return left.localeCompare(right,language,options);
-            }
+            };
             else
             {
                 const intlCollator=new Intl.Collator(language,options);
                 return function(left,right)
                 {
                     return intlCollator.compare(left,right);
-                }
+                };
             }
         }
         case -1:
@@ -167,18 +167,18 @@ function getStringComparatorFunction(order,language,options,useIntlCollator)
             if(!language)return function(left,right)
             {
                 return left==right?0:left<right?1:-1;
-            }
+            };
             else if(!useIntlCollator)return function(left,right)
             {
                 return right.localeCompare(left,language,options);
-            }
+            };
             else
             {
                 const intlCollator=new Intl.Collator(language,options);
                 return function(left,right)
                 {
                     return intlCollator.compare(right,left);
-                }
+                };
             }
         }
     }

@@ -15,33 +15,33 @@ function getDateTimeFormatFunction(toString,language,options)
             if(!language)return function(dateTime)
             {
                 return dateTime.toDateString();
-            }
+            };
             else return function(dateTime)
             {
                 return dateTime.toLocaleDateString(language,options);
-            }
+            };
         }
         case "time":
         {
             if(!language)return function(dateTime)
             {
                 return dateTime.toTimeString();
-            }
+            };
             else return function(dateTime)
             {
                 return dateTime.toLocaleTimeString(language,options);
-            }
+            };
         }
         case "datetime":
         {
             if(!language)return function(dateTime)
             {
                 return dateTime.toString();
-            }
+            };
             else return function(dateTime)
             {
                 return dateTime.toLocaleString(language,options);
-            }
+            };
         }
         case "custom":
         {
@@ -51,7 +51,7 @@ function getDateTimeFormatFunction(toString,language,options)
                 return function(dateTime)
                 {
                     return intlDateTimeFormat.format(dateTime);
-                }
+                };
             }
         }
         default:
@@ -59,7 +59,7 @@ function getDateTimeFormatFunction(toString,language,options)
             return function(datetime)
             {
                 return datetime.toJSON();
-            }
+            };
         }
     }
 }

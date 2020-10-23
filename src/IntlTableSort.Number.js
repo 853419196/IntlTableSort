@@ -11,18 +11,18 @@ function getNumberFormatFunction(language,options,useIntlCollator)
     if(!language)return function(number)
     {
         return number.toString();
-    }
+    };
     else if(!useIntlCollator)return function(number)
     {
         return number.toLocaleString(language,options);
-    }
+    };
     else
     {
         const intlNumberFormat=new Intl.NumberFormat(language,options);
         return function(number)
         {
             return intlNumberFormat.format(number);
-        }
+        };
     }
 }
 /**
