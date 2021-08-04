@@ -50,7 +50,7 @@ function getStringToCaseFunction(toCase,language)
  * @param {String} [toCase=""] - "Lower" or "Upper"
  * @param {String|String[]} [locales=""] - IETF BCP 47 Language Tag
  * @param {Object} [options=null]
- *  - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Collator
+ *  - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator
  */
 function stringTableSort(theadCell,toCase,locales,options)
 {

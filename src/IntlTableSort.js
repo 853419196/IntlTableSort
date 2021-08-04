@@ -132,7 +132,7 @@ function getNumberComparatorFunction(order)
  * @param {Number} order - -1 or +1
  * @param {String|String[]} [language=""] - IETF BCP 47 Language Tag
  * @param {Object} [options=null]
- *  - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Collator
+ *  - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator
  * @param {Boolean} [useIntlCollator=false] - true or false
  * @returns {(left:String,right:String)=>Number}
  * if(left>right)return +number; //+number>0
@@ -187,7 +187,7 @@ function getStringComparatorFunction(order,language,options,useIntlCollator)
  * @param {HTMLTableCellElement} theadCell - <table> -> <thead> -> <td> or <th>
  * @param {String|String[]} [locales=""] - IETF BCP 47 Language Tag
  * @param {Object} [options=null]
- *  - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Collator
+ *  - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator
  */
 function tableSort(theadCell,locales,options)
 {

@@ -3,7 +3,7 @@
  * @param {String} [toString=""] - "Date" or "Time" or "DateTime" or "Custom"
  * @param {String|String[]} [language=""] - IETF BCP 47 Language Tag
  * @param {Object} [options=null]
- *  - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat
+ *  - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
  * @returns {(dateTime:Date)=>String}
  */
 function getDateTimeFormatFunction(toString,language,options)
@@ -68,8 +68,8 @@ function getDateTimeFormatFunction(toString,language,options)
  * @param {String} [setToTitleString=""] - "Date" or "Time" or "DateTime" or "Custom"
  * @param {String|String[]} [locales=""] - IETF BCP 47 Language Tag
  * @param {Object} [options=null]
- *  - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Collator
- *  & https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat
+ *  - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator
+ *  & https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
  */
 function dateTimeTableSort(theadCell,setToTitleString,locales,options)
 {

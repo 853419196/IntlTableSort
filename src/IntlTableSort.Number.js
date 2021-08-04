@@ -2,7 +2,7 @@
 /**
  * @param {String|String[]} [language=""] - IETF BCP 47 Language Tag
  * @param {Object} [options=null]
- *  - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
+ *  - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
  * @param {Boolean} [useIntlCollator=false] - true or false
  * @returns {(number:Number)=>String}
  */
@@ -30,8 +30,8 @@ function getNumberFormatFunction(language,options,useIntlCollator)
  * @param {Boolean} [setTitle=false] - true or false
  * @param {String|String[]} [locales=""] - IETF BCP 47 Language Tag
  * @param {Object} [options=null]
- *  - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Collator
- *  & https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
+ *  - https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator
+ *  & https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
  */
 function numberTableSort(theadCell,setTitle,locales,options)
 {
